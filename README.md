@@ -81,7 +81,7 @@ MIT
 [npm-url]: https://npmjs.org/package/pluralize-esm
 [downloads-image]: https://img.shields.io/npm/dm/pluralize-esm.svg?style=flat
 [downloads-url]: https://npmjs.org/package/pluralize-esm
-[filesize-url]: https://img.shields.io/github/size/stipsan/pluralize-esm/dist/module.js.svg?style=flat
+[filesize-url]: https://img.shields.io/bundlephobia/minzip/pluralize-esm?label=size
 [pluralize]: https://npmjs.org/package/pluralize
 [superlint-image]: https://github.com/stipsan/pluralize-esm/workflows/lint/badge.svg
 [superlint-url]: https://github.com/marketplace/actions/super-linter

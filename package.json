@@ -32,14 +32,15 @@
   ],
   "scripts": {
     "prebuild": "rimraf dist",
-    "check": "tsc --noEmit",
     "build": "parcel build",
+    "check": "tsc --noEmit",
     "format": "prettier --write .",
     "package-check": "package-check",
     "prepublishOnly": "npm run build",
     "test": "node --test"
   },
   "prettier": {
+    "arrowParens": "avoid",
     "semi": false,
     "singleQuote": true
   },
