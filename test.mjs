@@ -688,7 +688,7 @@ const PLURAL_TESTS = [
   ['passerby', 'passersby'],
 ]
 
-test('methods', async (t) => {
+test('methods', async t => {
   await t.test('plural', () => {
     for (const [a, b] of PLURAL_TESTS) {
       assert.equal(pluralize.plural(a), b)
@@ -714,7 +714,7 @@ test('methods', async (t) => {
   })
 })
 
-test('automatically convert', async (t) => {
+test('automatically convert', async t => {
   await t.test('plural', () => {
     for (const [a, b] of PLURAL_TESTS) {
       // Make sure the word stays pluralized.
@@ -740,7 +740,7 @@ test('automatically convert', async (t) => {
   })
 })
 
-test('prepend count', async (t) => {
+test('prepend count', async t => {
   await t.test('plural words', function (t) {
     assert.equal(pluralize('test', 5, true), '5 tests')
   })
@@ -750,7 +750,7 @@ test('prepend count', async (t) => {
   })
 })
 
-test('adding new rules', async (t) => {
+test('adding new rules', async t => {
   await t.test('uncountable rules', () => {
     assert.equal(pluralize('paper'), 'papers')
 
