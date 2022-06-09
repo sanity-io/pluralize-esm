@@ -13,13 +13,8 @@ var irregularSingles: IrregularMap = new Map()
 /**
  * Sanitize a pluralization rule to a usable regular expression.
  */
-const sanitizeRule = (rule: Rule): RegExp => {
-  if (typeof rule === 'string') {
-    return new RegExp('^' + rule + '$', 'i')
-  }
-
-  return rule
-}
+const sanitizeRule = (rule: Rule): RegExp =>
+  typeof rule === 'string' ? new RegExp(`^${rule}$`, 'i') : rule
 
 /**
  * Pass in a word token to produce a function that can replicate the case on
@@ -47,25 +42,13 @@ const restoreCase = (word: string, token: string | undefined): string => {
 }
 
 /**
- * Interpolate a regexp string.
- */
-// @TODO refactor
-function interpolate(str: string, args: any) {
-  return str.replace(/\$(\d{1,2})/g, function (match, index) {
-    debugger
-    return args[index] || ''
-  })
-}
-
-/**
  * Sanitize a word by passing in the word and sanitization rules.
  */
-// @TODO refactor and fix up
-function sanitizeWord(
+const sanitizeWord = (
   token: string,
   word: string,
   rules: CachedRule[]
-): string {
+): string => {
   // Empty string or doesn't need fixing.
   if (!token.length || uncountables.has(token)) {
     return word
@@ -76,8 +59,14 @@ function sanitizeWord(
   while (len--) {
     const rule = rules[len]
     if (rule[0].test(word)) {
-      return word.replace(rule[0], function (match, index) {
-        var result = interpolate(rule[1], arguments)
+      // Replace a word using a rule.
+      return word.replace(rule[0], (...args) => {
+        const [match, index] = args
+        // Interpolate a regexp string.
+        const result = rule[1].replace(
+          /\$(\d{1,2})/g,
+          (_, index) => args[index] || ''
+        )
 
         if (match === '') {
           return restoreCase(word[index - 1], result)
