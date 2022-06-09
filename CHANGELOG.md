@@ -1,3 +1,10 @@
+## [9.0.2](https://github.com/stipsan/pluralize-esm/compare/v9.0.1...v9.0.2) (2022-06-09)
+
+
+### Bug Fixes
+
+* remove trailing comma ([c3dd1aa](https://github.com/stipsan/pluralize-esm/commit/c3dd1aa40a46c9b5598dca7da47476ae950321db))
+
 ## [9.0.1](https://github.com/stipsan/pluralize-esm/compare/v9.0.0...v9.0.1) (2022-06-09)
 
 
