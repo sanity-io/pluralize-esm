@@ -53,7 +53,7 @@ const restoreCase = (word: string, token: string | undefined): string => {
  * @param  {Array}  args
  * @return {string}
  */
-function interpolate(str: string, args) {
+function interpolate(str: string, args: any) {
   return str.replace(/\$(\d{1,2})/g, function (match, index) {
     return args[index] || ''
   })
@@ -81,7 +81,7 @@ const replace = (word: string, rule: Rule): string => {
 /**
  * Sanitize a word by passing in the word and sanitization rules.
  */
-function sanitizeWord(token: string, word: string, rules: Rule[]): word {
+function sanitizeWord(token: string, word: string, rules: Rule[]): string {
   // Empty string or doesn't need fixing.
   if (!token.length || uncountables.has(token)) {
     return word
@@ -125,7 +125,12 @@ const compute = (
 /**
  * Check if a word is part of the map.
  */
-function checkWord(replaceMap, keepMap, rules, bool?: boolean) {
+function checkWord(
+  replaceMap: IrregularMap,
+  keepMap: IrregularMap,
+  rules: Rule[],
+  bool?: boolean
+) {
   return function (word: string) {
     var token = word.toLowerCase()
 
