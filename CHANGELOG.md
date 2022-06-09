@@ -1,3 +1,6 @@
+# Changelog
+<!-- markdownlint-disable MD024 -->
+
 ## [9.0.2](https://github.com/stipsan/pluralize-esm/compare/v9.0.1...v9.0.2) (2022-06-09)
 
 
