@@ -1,9 +1,3 @@
-# This workflow executes several linters on changed files based on languages used in your code base whenever
-# you push a code or open a pull request.
-#
-# You can adjust the behavior by modifying this file.
-# For more information, see:
-# https://github.com/github/super-linter
 name: lint
 
 on:
@@ -24,6 +18,8 @@ jobs:
       - name: Lint Code Base
         uses: github/super-linter@v4
         env:
+          VALIDATE_TYPESCRIPT_STANDARD: false
+          # Disable ts-standard until: https://github.com/github/super-linter/discussions/2745
           VALIDATE_ALL_CODEBASE: false
           DEFAULT_BRANCH: 'main'
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
