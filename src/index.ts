@@ -1,11 +1,11 @@
-type Search = RegExp | string
-type Rule = [RegExp, string]
+export type Rule = RegExp | string
+type CachedRule = [RegExp, string]
 type IrregularMap = Map<string, string>
 
 // Rule storage - pluralize and singularize need to be run sequentially,
 // while other rules can be optimized using an object for instant lookups.
-var pluralRules: Rule[] = []
-var singularRules: Rule[] = []
+var pluralRules: CachedRule[] = []
+var singularRules: CachedRule[] = []
 const uncountables = new Set<string>()
 var irregularPlurals: IrregularMap = new Map()
 var irregularSingles: IrregularMap = new Map()
@@ -13,7 +13,7 @@ var irregularSingles: IrregularMap = new Map()
 /**
  * Sanitize a pluralization rule to a usable regular expression.
  */
-const sanitizeRule = (rule: Search): RegExp => {
+const sanitizeRule = (rule: Rule): RegExp => {
   if (typeof rule === 'string') {
     return new RegExp('^' + rule + '$', 'i')
   }
@@ -48,11 +48,8 @@ const restoreCase = (word: string, token: string | undefined): string => {
 
 /**
  * Interpolate a regexp string.
- *
- * @param  {string} str
- * @param  {Array}  args
- * @return {string}
  */
+// @TODO refactor
 function interpolate(str: string, args: any) {
   return str.replace(/\$(\d{1,2})/g, function (match, index) {
     return args[index] || ''
@@ -61,12 +58,9 @@ function interpolate(str: string, args: any) {
 
 /**
  * Replace a word using a rule.
- *
- * @param  {string} word
- * @param  {Array}  rule
- * @return {string}
  */
-const replace = (word: string, rule: Rule): string => {
+// @TODO refactor
+const replace = (word: string, rule: CachedRule): string => {
   return word.replace(rule[0], function (match, index) {
     var result = interpolate(rule[1], arguments)
 
@@ -81,7 +75,12 @@ const replace = (word: string, rule: Rule): string => {
 /**
  * Sanitize a word by passing in the word and sanitization rules.
  */
-function sanitizeWord(token: string, word: string, rules: Rule[]): string {
+// @TODO refactor and fix up
+function sanitizeWord(
+  token: string,
+  word: string,
+  rules: CachedRule[]
+): string {
   // Empty string or doesn't need fixing.
   if (!token.length || uncountables.has(token)) {
     return word
@@ -103,10 +102,10 @@ const compute = (
   word: string,
   replaceMap: IrregularMap,
   keepMap: IrregularMap,
-  rules: Rule[]
+  rules: CachedRule[]
 ): string => {
   // Get the correct token and case restoration functions.
-  var token = word.toLowerCase()
+  const token = word.toLowerCase()
 
   // Check against the keep object map.
   if (keepMap.has(token)) {
@@ -125,20 +124,18 @@ const compute = (
 /**
  * Check if a word is part of the map.
  */
-function checkWord(
+const mapHas = (
+  word: string,
   replaceMap: IrregularMap,
   keepMap: IrregularMap,
-  rules: Rule[],
-  bool?: boolean
-) {
-  return function (word: string) {
-    var token = word.toLowerCase()
+  rules: CachedRule[]
+): boolean => {
+  const token = word.toLowerCase()
 
-    if (keepMap.has(token)) return true
-    if (replaceMap.has(token)) return false
+  if (keepMap.has(token)) return true
+  if (replaceMap.has(token)) return false
 
-    return sanitizeWord(token, token, rules) === token
-  }
+  return sanitizeWord(token, token, rules) === token
 }
 
 /**
@@ -153,10 +150,10 @@ const pluralize = (
   count?: number,
   inclusive?: boolean
 ): string => {
-  var pluralized =
+  const pluralized =
     count === 1 ? pluralize.singular(word) : pluralize.plural(word)
-
-  return (inclusive ? count + ' ' : '') + pluralized
+  if (inclusive) return `${count} ${pluralized}`
+  return pluralized
 }
 
 /**
@@ -181,10 +178,7 @@ pluralize.singular = (word: string): string =>
  * @param rule
  * @param replacement
  */
-pluralize.addPluralRule = (
-  rule: string | RegExp,
-  replacement: string
-): void => {
+pluralize.addPluralRule = (rule: Rule, replacement: string): void => {
   pluralRules.push([sanitizeRule(rule), replacement])
 }
 
@@ -194,10 +188,7 @@ pluralize.addPluralRule = (
  * @param rule
  * @param replacement
  */
-pluralize.addSingularRule = (
-  rule: string | RegExp,
-  replacement: string
-): void => {
+pluralize.addSingularRule = (rule: Rule, replacement: string): void => {
   singularRules.push([sanitizeRule(rule), replacement])
 }
 
@@ -208,27 +199,27 @@ pluralize.addSingularRule = (
  * @param plural
  */
 pluralize.addIrregularRule = (single: string, plural: string): void => {
-  plural = plural.toLowerCase()
-  single = single.toLowerCase()
+  const _plural = plural.toLowerCase()
+  const _single = single.toLowerCase()
 
-  irregularSingles.set(single, plural)
-  irregularPlurals.set(plural, single)
+  irregularSingles.set(_single, _plural)
+  irregularPlurals.set(_plural, _single)
 }
 
 /**
  * Add an uncountable word rule.
  *
- * @param word
+ * @param rule
  */
-pluralize.addUncountableRule = (word: string | RegExp): void => {
-  if (typeof word === 'string') {
-    uncountables.add(word.toLowerCase())
+pluralize.addUncountableRule = (rule: Rule): void => {
+  if (typeof rule === 'string') {
+    uncountables.add(rule.toLowerCase())
     return
   }
 
   // Set singular and plural references for the word.
-  pluralize.addPluralRule(word, '$0')
-  pluralize.addSingularRule(word, '$0')
+  pluralize.addPluralRule(rule, '$0')
+  pluralize.addSingularRule(rule, '$0')
 }
 
 /**
@@ -236,18 +227,16 @@ pluralize.addUncountableRule = (word: string | RegExp): void => {
  *
  * @param word
  */
-pluralize.isPlural = checkWord(irregularSingles, irregularPlurals, pluralRules)
+pluralize.isPlural = (word: string): boolean =>
+  mapHas(word, irregularSingles, irregularPlurals, pluralRules)
 
 /**
  * Test if provided word is singular.
  *
  * @param word
  */
-pluralize.isSingular = checkWord(
-  irregularPlurals,
-  irregularSingles,
-  singularRules
-)
+pluralize.isSingular = (word: string): boolean =>
+  mapHas(word, irregularPlurals, irregularSingles, singularRules)
 
 const defaultIrregulars: [string, string][] = [
   // Pronouns.
@@ -308,7 +297,7 @@ const defaultIrregulars: [string, string][] = [
   ['passerby', 'passersby'],
   ['canvas', 'canvases'],
 ]
-const defaultPlurals: [Search, string][] = [
+const defaultPlurals: [Rule, string][] = [
   [/s?$/i, 's'],
   [/[^\u0000-\u007F]$/i, '$0'],
   [/([^aeiou]ese)$/i, '$1'],
@@ -344,7 +333,7 @@ const defaultPlurals: [Search, string][] = [
   [/m[ae]n$/i, 'men'],
   ['thou', 'you'],
 ]
-const defaultSingles: [Search, string][] = [
+const defaultSingles: [Rule, string][] = [
   [/s$/i, ''],
   [/(ss)$/i, '$1'],
   [/(wi|kni|(?:after|half|high|low|mid|non|night|[^\w]|^)li)ves$/i, '$1fe'],
@@ -388,7 +377,7 @@ const defaultSingles: [Search, string][] = [
   [/(eau)x?$/i, '$1'],
   [/men$/i, 'man'],
 ]
-const defaultUncountables: Search[] = [
+const defaultUncountables: Rule[] = [
   // Singular words with no plurals.
   'adulthood',
   'advice',
