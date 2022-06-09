@@ -4,11 +4,11 @@ type IrregularMap = Map<string, string>
 
 // Rule storage - pluralize and singularize need to be run sequentially,
 // while other rules can be optimized using an object for instant lookups.
-var pluralRules: CachedRule[] = []
-var singularRules: CachedRule[] = []
+const pluralRules: CachedRule[] = []
+const singularRules: CachedRule[] = []
 const uncountables = new Set<string>()
-var irregularPlurals: IrregularMap = new Map()
-var irregularSingles: IrregularMap = new Map()
+const irregularPlurals: IrregularMap = new Map()
+const irregularSingles: IrregularMap = new Map()
 
 /**
  * Sanitize a pluralization rule to a usable regular expression.
