@@ -277,7 +277,7 @@ const defaultIrregulars: [string, string][] = [
   ['groove', 'grooves'],
   ['pickaxe', 'pickaxes'],
   ['passerby', 'passersby'],
-  ['canvas', 'canvases'],
+  ['canvas', 'canvases']
 ]
 const defaultPlurals: [Rule, string][] = [
   [/s?$/i, 's'],
@@ -289,18 +289,18 @@ const defaultPlurals: [Rule, string][] = [
   [/([^l]ias|[aeiou]las|[ejzr]as|[iu]am)$/i, '$1'],
   [
     /(alumn|syllab|vir|radi|nucle|fung|cact|stimul|termin|bacill|foc|uter|loc|strat)(?:us|i)$/i,
-    '$1i',
+    '$1i'
   ],
   [/(alumn|alg|vertebr)(?:a|ae)$/i, '$1ae'],
   [/(seraph|cherub)(?:im)?$/i, '$1im'],
   [/(her|at|gr)o$/i, '$1oes'],
   [
     /(agend|addend|millenni|dat|extrem|bacteri|desiderat|strat|candelabr|errat|ov|symposi|curricul|automat|quor)(?:a|um)$/i,
-    '$1a',
+    '$1a'
   ],
   [
     /(apheli|hyperbat|periheli|asyndet|noumen|phenomen|criteri|organ|prolegomen|hedr|automat)(?:a|on)$/i,
-    '$1a',
+    '$1a'
   ],
   [/sis$/i, 'ses'],
   [/(?:(kni|wi|li)fe|(ar|l|ea|eo|oa|hoo)f)$/i, '$1$2ves'],
@@ -313,7 +313,7 @@ const defaultPlurals: [Rule, string][] = [
   [/(child)(?:ren)?$/i, '$1ren'],
   [/eaux$/i, '$0'],
   [/m[ae]n$/i, 'men'],
-  ['thou', 'you'],
+  ['thou', 'you']
 ]
 const defaultSingles: [Rule, string][] = [
   [/s$/i, ''],
@@ -324,32 +324,32 @@ const defaultSingles: [Rule, string][] = [
   [/(dg|ss|ois|lk|ok|wn|mb|th|ch|ec|oal|is|ck|ix|sser|ts|wb)ies$/i, '$1ie'],
   [
     /\b(l|(?:neck|cross|hog|aun)?t|coll|faer|food|gen|goon|group|hipp|junk|vegg|(?:pork)?p|charl|calor|cut)ies$/i,
-    '$1ie',
+    '$1ie'
   ],
   [/\b(mon|smil)ies$/i, '$1ey'],
   [/\b((?:tit)?m|l)ice$/i, '$1ouse'],
   [/(seraph|cherub)im$/i, '$1'],
   [
     /(x|ch|ss|sh|zz|tto|go|cho|alias|[^aou]us|t[lm]as|gas|(?:her|at|gr)o|[aeiou]ris)(?:es)?$/i,
-    '$1',
+    '$1'
   ],
   [
     /(analy|diagno|parenthe|progno|synop|the|empha|cri|ne)(?:sis|ses)$/i,
-    '$1sis',
+    '$1sis'
   ],
   [/(movie|twelve|abuse|e[mn]u)s$/i, '$1'],
   [/(test)(?:is|es)$/i, '$1is'],
   [
     /(alumn|syllab|vir|radi|nucle|fung|cact|stimul|termin|bacill|foc|uter|loc|strat)(?:us|i)$/i,
-    '$1us',
+    '$1us'
   ],
   [
     /(agend|addend|millenni|dat|extrem|bacteri|desiderat|strat|candelabr|errat|ov|symposi|curricul|quor)a$/i,
-    '$1um',
+    '$1um'
   ],
   [
     /(apheli|hyperbat|periheli|asyndet|noumen|phenomen|criteri|organ|prolegomen|hedr|automat)a$/i,
-    '$1on',
+    '$1on'
   ],
   [/(alumn|alg|vertebr)ae$/i, '$1a'],
   [/(cod|mur|sil|vert|ind)ices$/i, '$1ex'],
@@ -357,7 +357,7 @@ const defaultSingles: [Rule, string][] = [
   [/(pe)(rson|ople)$/i, '$1rson'],
   [/(child)ren$/i, '$1'],
   [/(eau)x?$/i, '$1'],
-  [/men$/i, 'man'],
+  [/men$/i, 'man']
 ]
 const defaultUncountables: Rule[] = [
   // Singular words with no plurals.
@@ -462,7 +462,7 @@ const defaultUncountables: Rule[] = [
   /measles$/i,
   /o[iu]s$/i, // "carnivorous"
   /pox$/i, // "chickpox", "smallpox"
-  /sheep$/i,
+  /sheep$/i
 ]
 // Now lets add all the defaults
 for (const [single, plural] of defaultIrregulars) {

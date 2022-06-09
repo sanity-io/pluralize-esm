@@ -663,7 +663,7 @@ const BASIC_TESTS = [
   ['Order2', 'Order2s'],
   ['Work Order2', 'Work Order2s'],
   ['SoundFX2', 'SoundFX2s'],
-  ['oDonald', 'oDonalds'],
+  ['oDonald', 'oDonalds']
 ]
 
 const SINGULAR_TESTS = [
@@ -674,7 +674,7 @@ const SINGULAR_TESTS = [
   ['ghetto', 'ghettoes'],
   ['nucleus', 'nucleuses'],
   ['bureau', 'bureaux'],
-  ['seraph', 'seraphs'],
+  ['seraph', 'seraphs']
 ]
 
 const PLURAL_TESTS = [
@@ -685,7 +685,7 @@ const PLURAL_TESTS = [
   ['automatum', 'automata'],
   ['thou', 'you'],
   ['axiS', 'axes'],
-  ['passerby', 'passersby'],
+  ['passerby', 'passersby']
 ]
 
 test('methods', async t => {
