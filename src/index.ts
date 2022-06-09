@@ -52,23 +52,8 @@ const restoreCase = (word: string, token: string | undefined): string => {
 // @TODO refactor
 function interpolate(str: string, args: any) {
   return str.replace(/\$(\d{1,2})/g, function (match, index) {
+    debugger
     return args[index] || ''
-  })
-}
-
-/**
- * Replace a word using a rule.
- */
-// @TODO refactor
-const replace = (word: string, rule: CachedRule): string => {
-  return word.replace(rule[0], function (match, index) {
-    var result = interpolate(rule[1], arguments)
-
-    if (match === '') {
-      return restoreCase(word[index - 1], result)
-    }
-
-    return restoreCase(match, result)
   })
 }
 
@@ -86,13 +71,21 @@ function sanitizeWord(
     return word
   }
 
-  var len = rules.length
-
   // Iterate over the sanitization rules and use the first one to match.
+  let { length: len } = rules
   while (len--) {
-    var rule = rules[len]
+    const rule = rules[len]
+    if (rule[0].test(word)) {
+      return word.replace(rule[0], function (match, index) {
+        var result = interpolate(rule[1], arguments)
 
-    if (rule[0].test(word)) return replace(word, rule)
+        if (match === '') {
+          return restoreCase(word[index - 1], result)
+        }
+
+        return restoreCase(match, result)
+      })
+    }
   }
 
   return word
