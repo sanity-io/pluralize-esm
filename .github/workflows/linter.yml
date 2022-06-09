@@ -18,8 +18,8 @@ jobs:
       - name: Lint Code Base
         uses: github/super-linter@v4
         env:
-          VALIDATE_TYPESCRIPT_STANDARD: false
           # Disable ts-standard until: https://github.com/github/super-linter/discussions/2745
-          VALIDATE_ALL_CODEBASE: false
+          VALIDATE_TYPESCRIPT_STANDARD: false
+          VALIDATE_ALL_CODEBASE: true
           DEFAULT_BRANCH: 'main'
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
