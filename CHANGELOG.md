@@ -1,3 +1,17 @@
+<!-- markdownlint-disable --><!-- textlint-disable -->
+
+# 📓 Changelog
+
+All notable changes to this project will be documented in this file. See
+[Conventional Commits](https://conventionalcommits.org) for commit guidelines.
+
+## [9.0.3](https://github.com/stipsan/pluralize-esm/compare/v9.0.2...v9.0.3) (2022-09-27)
+
+
+### Bug Fixes
+
+* use new semantic release preset ([1491d8a](https://github.com/stipsan/pluralize-esm/commit/1491d8aa57a26ea205e0d1b466f7153d06224a68))
+
 # Changelog
 <!-- markdownlint-disable MD024 -->
 
