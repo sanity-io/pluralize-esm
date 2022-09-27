@@ -12,8 +12,6 @@ All notable changes to this project will be documented in this file. See
 
 * use new semantic release preset ([1491d8a](https://github.com/stipsan/pluralize-esm/commit/1491d8aa57a26ea205e0d1b466f7153d06224a68))
 
-# Changelog
-<!-- markdownlint-disable MD024 -->
 
 ## [9.0.2](https://github.com/stipsan/pluralize-esm/compare/v9.0.1...v9.0.2) (2022-06-09)
 
