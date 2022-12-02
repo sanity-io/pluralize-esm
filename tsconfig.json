@@ -1,8 +1,20 @@
 {
-  "include": ["src/**/*"],
   "compilerOptions": {
-    "target": "es2021",
+    "target": "esnext",
+    "module": "esnext",
+    "moduleResolution": "node",
+    "declaration": true,
+    "rootDir": "src",
+    "outDir": "dist",
+    "declarationDir": "dist",
+    "emitDeclarationOnly": true,
+    "noImplicitReturns": true,
+    "noFallthroughCasesInSwitch": true,
+    "skipLibCheck": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
     "strict": true,
-    "checkJs": true
-  }
+    "lib": ["esnext"]
+  },
+  "exclude": ["node_modules", "dist"]
 }

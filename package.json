@@ -10,55 +10,51 @@
     "singularize",
     "inflection"
   ],
-  "repository": "https://github.com/stipsan/pluralize-esm.git",
+  "repository": "https://github.com/sanity-io/pluralize-esm.git",
   "license": "MIT",
-  "author": {
-    "name": "Cody Olsen",
-    "email": "stipsan@gmail.com",
-    "url": "http://github.com/stipsan"
-  },
+  "author": "Sanity.io <hello@sanity.io>",
+  "sideEffects": false,
+  "type": "module",
   "exports": {
     ".": {
-      "require": "./dist/main.js",
-      "default": "./dist/module.mjs"
-    }
+      "types": "./dist/index.d.ts",
+      "source": "./src/index.ts",
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs",
+      "default": "./dist/index.js"
+    },
+    "./package.json": "./package.json"
   },
-  "main": "dist/main.js",
-  "module": "dist/module.mjs",
-  "source": "src/index.ts",
-  "types": "dist/types.d.ts",
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
+  "typings": "./dist/index.d.ts",
   "files": [
-    "dist"
+    "dist",
+    "src"
   ],
   "scripts": {
-    "prebuild": "rimraf dist",
-    "build": "parcel build",
-    "check": "tsc --noEmit",
-    "format": "prettier --write .",
-    "package-check": "package-check",
+    "prebuild": "npx rimraf dist",
+    "build": "pkg build --strict",
+    "format": "prettier --ignore-path .gitignore --cache --write .",
     "prepublishOnly": "npm run build",
-    "test": "node --test"
+    "test": "ava"
   },
   "browserslist": [
-    "supports es6-module",
-    "not dead"
+    "> 0.2% and supports es6-module and supports es6-module-dynamic-import and not dead and not IE 11",
+    "maintained node versions"
   ],
   "prettier": {
-    "arrowParens": "avoid",
     "semi": false,
-    "singleQuote": true,
-    "trailingComma": "none"
+    "singleQuote": true
   },
   "devDependencies": {
-    "@parcel/packager-ts": "^2.6.0",
-    "@parcel/transformer-typescript-types": "^2.6.0",
-    "@sanity/semantic-release-preset": "^2.0.1",
-    "@skypack/package-check": "^0.2.2",
-    "parcel": "^2.6.0",
-    "prettier": "^2.6.2",
-    "prettier-plugin-packagejson": "^2.2.18",
+    "@sanity/pkg-utils": "1.19.0",
+    "@sanity/semantic-release-preset": "^2.0.2",
+    "ava": "^5.1.0",
+    "prettier": "^2.8.0",
+    "prettier-plugin-packagejson": "^2.3.0",
     "rimraf": "^3.0.2",
-    "typescript": "^4.7.3"
+    "typescript": "^4.9.3"
   },
   "engines": {
     "node": ">=14.0.0"

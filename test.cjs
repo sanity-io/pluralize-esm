@@ -1,6 +1,5 @@
-import { strict as assert } from 'node:assert'
-import test from 'node:test'
-import pluralize from 'pluralize-esm'
+const test = require('ava')
+const pluralize = require('./dist/index.cjs')
 
 const BASIC_TESTS = [
   // Uncountables.
@@ -663,7 +662,7 @@ const BASIC_TESTS = [
   ['Order2', 'Order2s'],
   ['Work Order2', 'Work Order2s'],
   ['SoundFX2', 'SoundFX2s'],
-  ['oDonald', 'oDonalds']
+  ['oDonald', 'oDonalds'],
 ]
 
 const SINGULAR_TESTS = [
@@ -674,7 +673,7 @@ const SINGULAR_TESTS = [
   ['ghetto', 'ghettoes'],
   ['nucleus', 'nucleuses'],
   ['bureau', 'bureaux'],
-  ['seraph', 'seraphs']
+  ['seraph', 'seraphs'],
 ]
 
 const PLURAL_TESTS = [
@@ -685,117 +684,109 @@ const PLURAL_TESTS = [
   ['automatum', 'automata'],
   ['thou', 'you'],
   ['axiS', 'axes'],
-  ['passerby', 'passersby']
+  ['passerby', 'passersby'],
 ]
 
-test('methods', async t => {
-  await t.test('plural', () => {
-    for (const [a, b] of PLURAL_TESTS) {
-      assert.equal(pluralize.plural(a), b)
-    }
-  })
-
-  await t.test('isPlural', () => {
-    for (const [, b] of PLURAL_TESTS) {
-      assert.equal(pluralize.isPlural(b), true)
-    }
-  })
-
-  await t.test('singular', () => {
-    for (const [a, b] of SINGULAR_TESTS) {
-      assert.equal(pluralize.singular(b), a)
-    }
-  })
-
-  await t.test('isSingular', async () => {
-    for (const [a] of SINGULAR_TESTS) {
-      assert.equal(pluralize.isSingular(a), true)
-    }
-  })
+test('plural', (t) => {
+  for (const [a, b] of PLURAL_TESTS) {
+    t.is(pluralize.plural(a), b)
+  }
 })
 
-test('automatically convert', async t => {
-  await t.test('plural', () => {
-    for (const [a, b] of PLURAL_TESTS) {
-      // Make sure the word stays pluralized.
-      assert.equal(pluralize(b, 5), b)
-
-      // Make sure the word becomes a plural.
-      if (a !== b) {
-        assert.equal(pluralize(a, 5), b)
-      }
-    }
-  })
-
-  await t.test('singular', () => {
-    for (const [a, b] of SINGULAR_TESTS) {
-      // Make sure the word stays singular.
-      assert.equal(pluralize(a, 1), a)
-
-      // Make sure the word becomes singular.
-      if (a !== b) {
-        assert.equal(pluralize(b, 1), a)
-      }
-    }
-  })
+test('isPlural', (t) => {
+  for (const [, b] of PLURAL_TESTS) {
+    t.is(pluralize.isPlural(b), true)
+  }
 })
 
-test('prepend count', async t => {
-  await t.test('plural words', function (t) {
-    assert.equal(pluralize('test', 5, true), '5 tests')
-  })
-
-  await t.test('singular words', function (t) {
-    assert.equal(pluralize('test', 1, true), '1 test')
-  })
+test('singular', (t) => {
+  for (const [a, b] of SINGULAR_TESTS) {
+    t.is(pluralize.singular(b), a)
+  }
 })
 
-test('adding new rules', async t => {
-  await t.test('uncountable rules', () => {
-    assert.equal(pluralize('paper'), 'papers')
+test('isSingular', (t) => {
+  for (const [a] of SINGULAR_TESTS) {
+    t.is(pluralize.isSingular(a), true)
+  }
+})
 
-    pluralize.addUncountableRule('paper')
+test('automatically convert plural', (t) => {
+  for (const [a, b] of PLURAL_TESTS) {
+    // Make sure the word stays pluralized.
+    t.is(pluralize(b, 5), b)
 
-    assert.equal(pluralize('paper'), 'paper')
-  })
+    // Make sure the word becomes a plural.
+    if (a !== b) {
+      t.is(pluralize(a, 5), b)
+    }
+  }
+})
 
-  await t.test('should allow new irregular words', () => {
-    assert.equal(pluralize('irregular'), 'irregulars')
+test('automatically convert singular', (t) => {
+  for (const [a, b] of SINGULAR_TESTS) {
+    // Make sure the word stays singular.
+    t.is(pluralize(a, 1), a)
 
-    pluralize.addIrregularRule('irregular', 'regular')
+    // Make sure the word becomes singular.
+    if (a !== b) {
+      t.is(pluralize(b, 1), a)
+    }
+  }
+})
 
-    assert.equal(pluralize('irregular'), 'regular')
-  })
+test('prepend count - plural words', function (t) {
+  t.is(pluralize('test', 5, true), '5 tests')
+})
 
-  await t.test('should allow new plural matching rules', () => {
-    assert.equal(pluralize.plural('regex'), 'regexes')
+test('prepend count - singular words', function (t) {
+  t.is(pluralize('test', 1, true), '1 test')
+})
 
-    pluralize.addPluralRule(/gex$/i, 'gexii')
+test('adding new rules - uncountable rules', (t) => {
+  t.is(pluralize('paper'), 'papers')
 
-    assert.equal(pluralize.plural('regex'), 'regexii')
-  })
+  pluralize.addUncountableRule('paper')
 
-  await t.test('should allow new singular matching rules', () => {
-    assert.equal(pluralize.singular('singles'), 'single')
+  t.is(pluralize('paper'), 'paper')
+})
 
-    pluralize.addSingularRule(/singles$/, 'singular')
+test('adding new rules - should allow new irregular words', (t) => {
+  t.is(pluralize('irregular'), 'irregulars')
 
-    assert.equal(pluralize.singular('singles'), 'singular')
-  })
+  pluralize.addIrregularRule('irregular', 'regular')
 
-  await t.test('should allow new plural matching rules to be strings', () => {
-    assert.equal(pluralize.plural('person'), 'people')
+  t.is(pluralize('irregular'), 'regular')
+})
 
-    pluralize.addPluralRule('person', 'peeps')
+test('adding new rules - should allow new plural matching rules', (t) => {
+  t.is(pluralize.plural('regex'), 'regexes')
 
-    assert.equal(pluralize.plural('person'), 'peeps')
-  })
+  pluralize.addPluralRule(/gex$/i, 'gexii')
 
-  await t.test('should allow new singular matching rules to be strings', () => {
-    assert.equal(pluralize.singular('mornings'), 'morning')
+  t.is(pluralize.plural('regex'), 'regexii')
+})
 
-    pluralize.addSingularRule('mornings', 'suck')
+test('adding new rules - should allow new singular matching rules', (t) => {
+  t.is(pluralize.singular('singles'), 'single')
 
-    assert.equal(pluralize.singular('mornings'), 'suck')
-  })
+  pluralize.addSingularRule(/singles$/, 'singular')
+
+  t.is(pluralize.singular('singles'), 'singular')
+})
+
+test('adding new rules - should allow new plural matching rules to be strings', (t) => {
+  t.is(pluralize.plural('person'), 'people')
+
+  pluralize.addPluralRule('person', 'peeps')
+
+  t.is(pluralize.plural('person'), 'peeps')
+})
+
+test('adding new rules - should allow new singular matching rules to be strings', (t) => {
+  t.is(pluralize.singular('mornings'), 'morning')
+
+  pluralize.addSingularRule('mornings', 'suck')
+
+  t.is(pluralize.singular('mornings'), 'suck')
 })
