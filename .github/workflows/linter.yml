@@ -17,11 +17,10 @@ jobs:
           fetch-depth: 0
 
       - name: Lint Code Base
-        uses: github/super-linter@v4
+        uses: github/super-linter/slim@bb2d833b08b6c288608686672b93a8a4589cdc49 # tag=v4
         env:
-          # Disable ts-standard until:
-          # https://github.com/github/super-linter/discussions/2745
-          VALIDATE_TYPESCRIPT_STANDARD: false
-          VALIDATE_ALL_CODEBASE: false
-          DEFAULT_BRANCH: 'main'
+          DEFAULT_BRANCH: main
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          IGNORE_GITIGNORED_FILES: true
+          JAVASCRIPT_DEFAULT_STYLE: standard/prettier
+          VALIDATE_ALL_CODEBASE: false
