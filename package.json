@@ -48,13 +48,13 @@
     "singleQuote": true
   },
   "devDependencies": {
-    "@sanity/pkg-utils": "1.19.0",
-    "@sanity/semantic-release-preset": "^2.0.2",
-    "ava": "^5.1.0",
-    "prettier": "^2.8.0",
-    "prettier-plugin-packagejson": "^2.3.0",
-    "rimraf": "^3.0.2",
-    "typescript": "^4.9.3"
+    "@sanity/pkg-utils": "2.2.1",
+    "@sanity/semantic-release-preset": "^4.0.0",
+    "ava": "^5.1.1",
+    "prettier": "^2.8.3",
+    "prettier-plugin-packagejson": "^2.4.0",
+    "rimraf": "^4.1.1",
+    "typescript": "^4.9.4"
   },
   "engines": {
     "node": ">=14.0.0"
