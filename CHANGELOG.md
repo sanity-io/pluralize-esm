@@ -5,6 +5,12 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [9.0.5](https://github.com/sanity-io/pluralize-esm/compare/v9.0.4...v9.0.5) (2023-01-20)
+
+### Bug Fixes
+
+- update deps ([6fa7e74](https://github.com/sanity-io/pluralize-esm/commit/6fa7e749aea18e08e79edec2130caf3057c1c043))
+
 ## [9.0.4](https://github.com/sanity-io/pluralize-esm/compare/v9.0.3...v9.0.4) (2022-12-02)
 
 ### Bug Fixes
